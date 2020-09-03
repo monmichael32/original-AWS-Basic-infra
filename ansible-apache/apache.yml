@@ -1,0 +1,40 @@
+---
+- hosts: apache
+  vars:
+    http_port: 80
+    max_clients: 200
+    apache_webserver_port: 80
+  remote_user: avenuecode
+  tasks:
+  - name: ensure apache is at the latest version
+    become: yes
+    yum:
+      name: httpd
+      state: latest
+#  - name: write the apache config file
+#    become: yes
+#    template:
+#      src: /srv/httpd.j2
+#      dest: /etc/httpd.conf
+#    notify:
+#    - restart apache
+  - name: ensure apache is running
+    become: yes
+    service:
+      name: httpd
+      state: started
+  - name: Extract archive
+    become: yes
+    unarchive: 
+      src: eureka.tar
+      dest: /var/www/html
+  - name: 
+    become: yes
+    pip: 
+      name: pymongo
+  handlers:
+    - name: restart apache
+      become: yes
+      service:
+        name: httpd
+        state: restarted
