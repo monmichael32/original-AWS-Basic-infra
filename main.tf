@@ -318,7 +318,7 @@ resource "aws_instance" "web-1" {
 terraform {
   backend "s3" {
     bucket = "cts-statebucket"
-    key    = "terraform.tfstate"
+    key    = "s3://cts-statebucket/OG/terraform.tfstate"
     region = "us-east-1"
   }
 }
